@@ -1,0 +1,3 @@
+# /etc/conf.d/microwhoisd
+
+MICROWHOISD_OPTS="--file /chroot/dns/var/bind/pri/rnl.ist.utl.pt --listen :: --uid nobody --gid named"

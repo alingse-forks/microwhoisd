@@ -1,0 +1,24 @@
+#!/sbin/runscript
+
+command=/root/microwhoisd
+pidfile=/run/microwhoisd.pid
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting microwhoisd"
+	start-stop-daemon --start --exec ${command} \
+	    --pidfile ${pidfile} --background --make-pidfile \
+	    -- ${MICROWHOISD_OPTS}
+	eend $? "Failed to start microwhoisd"
+}
+
+stop() {
+	ebegin "Stopping microwhoisd"
+	start-stop-daemon --stop \
+		--pidfile ${pidfile} \
+		--exec ${command}
+	eend $? "Failed to stop microwhoisd"
+}
