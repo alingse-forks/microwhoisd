@@ -1,21 +1,10 @@
-#!/sbin/runscript
+#!/sbin/openrc-run
+
+command="${MICROWHOISD_BIN}"
+command_args="${MICROWHOISD_OPTS}"
+command_background=yes
+pidfile="${MICROWHOISD_PIDFILE}"
 
 depend() {
 	need net
-}
-
-start() {
-	ebegin "Starting microwhoisd"
-	start-stop-daemon --start --exec ${MICROWHOISD_BIN} \
-	    --pidfile ${MICROWHOISD_PIDFILE} --background --make-pidfile \
-	    -- ${MICROWHOISD_OPTS}
-	eend $? "Failed to start microwhoisd"
-}
-
-stop() {
-	ebegin "Stopping microwhoisd"
-	start-stop-daemon --stop \
-		--pidfile ${MICROWHOISD_PIDFILE} \
-		--exec ${MICROWHOISD_BIN}
-	eend $? "Failed to stop microwhoisd"
 }
