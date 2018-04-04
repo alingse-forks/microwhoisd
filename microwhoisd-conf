@@ -2,5 +2,5 @@
 
 MICROWHOISD_BIN="/usr/sbin/microwhoisd"
 MICROWHOISD_PIDFILE="/run/microwhoisd.pid"
-MICROWHOISD_OPTS="--file /var/bind/pri/rnl.ist.utl.pt --listen :: --uid nobody --gid named"
+MICROWHOISD_OPTS="--file /var/bind/pri/rnl.tecnico.ulisboa.pt --listen :: --uid nobody --gid named"
 
