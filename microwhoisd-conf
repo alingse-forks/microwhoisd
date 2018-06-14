@@ -1,6 +1,5 @@
 # /etc/conf.d/microwhoisd
 
-MICROWHOISD_BIN="/usr/sbin/microwhoisd"
+MICROWHOISD_BIN="/usr/bin/microwhoisd"
 MICROWHOISD_PIDFILE="/run/microwhoisd.pid"
-MICROWHOISD_OPTS="--file /var/bind/pri/rnl.tecnico.ulisboa.pt --listen :: --uid nobody --gid named"
-
+MICROWHOISD_OPTS="--config /etc/microwhoisd/config.yaml --listen :: --uid nobody --gid nobody"

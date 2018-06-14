@@ -1,0 +1,21 @@
+%YAML 1.1
+---
+
+files:
+  - some_zone_file
+
+keyvalues:
+  machine1: Description 1
+  machine2: Description 2
+
+networks:
+
+  - name: Network 1
+    subnet: 192.168.1.0/24
+    gateway: 192.168.1.254
+    vlan: network1
+
+  - name: Network 2
+    subnet: 192.168.2.0/24
+    gateway: 192.168.2.254
+    vlan: network2
