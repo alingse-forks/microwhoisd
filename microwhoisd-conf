@@ -2,4 +2,4 @@
 
 MICROWHOISD_BIN="/usr/bin/microwhoisd"
 MICROWHOISD_PIDFILE="/run/microwhoisd.pid"
-MICROWHOISD_OPTS="--config /etc/microwhoisd/config.yaml --listen :: --uid nobody --gid nobody"
+MICROWHOISD_OPTS="--config /etc/microwhoisd.yaml --listen :: --uid nobody --gid nobody"
