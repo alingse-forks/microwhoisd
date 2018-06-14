@@ -1,10 +1,12 @@
 # Microwhoisd
 
-Small daemon to serve as an WHOIS server.
+Small daemon to serve as an [WHOIS](https://en.wikipedia.org/wiki/WHOIS) server.
+
+Useful to be able to internally use a standard whois client to get useful information on DNS names and IP addresses.
 
 ## Server Configuration
 
-It uses as YAML configuration file, where the answerers can be configured from
+It uses as [YAML](https://en.wikipedia.org/wiki/YAML) configuration file (see the ``config-dist.yaml`` as example), where the answerers can be configured from
 multiple sources, returing the first that matches according to the order below.
 
 ### Keyvalues
@@ -64,7 +66,7 @@ optional arguments:
   --gid GID             Run with this group after creating socket (default: nobody)
 ```
 
-With the configuration file ready, the daemon can be tested locally and without root permissions:
+The daemon can be tested locally and without root permissions:
 
 
 ```
@@ -98,4 +100,6 @@ To be able to call the whois command without any extra arguments, configure the 
 ^10.16.                        server.domain
 ^192.168.                      server.domain
 ```
+
+This way, when querying a single name or IP from those subnets, the whois client will query our server instead of the defaults.
 
