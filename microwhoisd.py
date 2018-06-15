@@ -55,7 +55,7 @@ class Network:
         return ipaddress.ip_address(ip) in self.subnet
 
     def info(self):
-        text = "Network name: %s\n" % self.name
+        text = "Network: %s\n" % self.name
         text += "Subnet: %s\n" % self.subnet
         text += "Netmask: %s\n" % self.subnet.netmask
         if self.gateway:
