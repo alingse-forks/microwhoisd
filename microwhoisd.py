@@ -95,7 +95,7 @@ class Whois:
 
         # <network>.vlan - Return the network info
 
-        match = re.match("^([a-zA-Z]+).vlan$", query)
+        match = re.match("^([^.]+).vlan$", query)
 
         if match:
             vlan = match.group(1)
