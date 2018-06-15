@@ -20,9 +20,14 @@ If the key matches the whois query, it returns the associated value.
 
 ```yaml
 keyvalues:
-  key1: value1
+  machine1: Description 1
 ```
 
+Usage example:
+```sh
+$ whois machine1
+Description 1
+```
 
 ### Networks
 
@@ -34,7 +39,28 @@ networks:
     subnet: 192.168.1.0/24
     gateway: 192.168.1.254
     vlan: network1
+```
 
+Usage example:
+```sh
+$ whois 192.168.1.100
+Network name: Network 1
+Subnet: 192.168.1.0/24
+Netmask: 255.255.255.0
+Gateway: 192.168.1.254
+VLAN: network1
+```
+
+It will also return the network information for queries in the form ``<vlan name>.vlan``, like ``network1.vlan``.
+
+Usage example:
+```sh
+$ whois network1.vlan
+Network name: Network 1
+Subnet: 192.168.1.0/24
+Netmask: 255.255.255.0
+Gateway: 192.168.1.254
+VLAN: network1
 ```
 
 ### Files
@@ -46,6 +72,13 @@ the given query it returns the whole line.
 files:                                                                                                                         
   - file1
   - file2
+```
+
+Usage example, assuming one of the files is a DNS zone file:
+
+```sh
+$ whois machine2
+machine2		IN		A	192.168.1.2			; Machine2
 ```
 
 ## Server launch
