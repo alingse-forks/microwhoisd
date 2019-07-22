@@ -149,7 +149,7 @@ if __name__ == "__main__":
 
     with open(config_path) as stream:
         try:
-            whois = Whois(yaml.load(stream))
+            whois = Whois(yaml.safe_load(stream))
         except yaml.YAMLError as e:
             print(e)
 
