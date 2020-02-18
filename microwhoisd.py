@@ -1,38 +1,56 @@
 #!/usr/bin/env python3
 
-import os, sys, argparse, pwd, grp, socket, socketserver, re, yaml, ipaddress
+import os
+import sys
+import argparse
+import pwd
+import grp
+import socket
+import socketserver
+import re
+import yaml
+import ipaddress
+
 
 def parseArgs():
-	parser = argparse.ArgumentParser(description='Micro implementation of an whois server.', formatter_class=argparse.RawTextHelpFormatter)
-	parser.add_argument('--listen', dest='address', default='localhost', help='Address to listen on (default: localhost)')
-	parser.add_argument('--port', dest='port', type=int, default=43, help='Port (default: 43)')
-	parser.add_argument('--config', dest='config_path', default='config.yaml', help='Config file (default: config.yaml)')
-	parser.add_argument('--uid', default='nobody', help='Run with this user after creating socket (default: nobody)')
-	parser.add_argument('--gid', default='nobody', help='Run with this group after creating socket (default: nobody)')
+    parser = argparse.ArgumentParser(description='Micro implementation of an whois server.',
+                                     formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument('--listen', dest='address', default='localhost',
+                        help='Address to listen on (default: localhost)')
+    parser.add_argument('--port', dest='port', type=int, default=43,
+                        help='Port (default: 43)')
+    parser.add_argument('--config', dest='config_path', default='config.yaml',
+                        help='Config file (default: config.yaml)')
+    parser.add_argument('--uid', default='nobody',
+                        help='Run with this user after creating socket (default: nobody)')
+    parser.add_argument('--gid', default='nobody',
+                        help='Run with this group after creating socket (default: nobody)')
 
-	args = parser.parse_args()
+    args = parser.parse_args()
 
-	return (args.address, args.port, args.config_path, args.uid, args.gid)
+    return (args.address, args.port, args.config_path, args.uid, args.gid)
+
 
 def dropRoot(uid, gid):
     uid_name = uid
     gid_name = gid
 
     try:
-            running_uid = pwd.getpwnam(uid_name).pw_uid
+        running_uid = pwd.getpwnam(uid_name).pw_uid
     except KeyError:
-            print('The user \'%s\' does not exist. Create it or change the user with the option --uid' % uid)
-            sys.exit(1)
+        print('The user \'%s\' does not exist. Create it or change the user with the option --uid' % uid)
+        sys.exit(1)
 
     try:
-            running_gid = grp.getgrnam(gid_name).gr_gid
+        running_gid = grp.getgrnam(gid_name).gr_gid
     except KeyError:
-            print('The group \'%s\' does not exist. Create it or change the group with the option --gid' % gid)
-            sys.exit(1)
+        print('The group \'%s\' does not exist. Create it or change the group with the option --gid' % gid)
+        sys.exit(1)
 
     os.setgroups([])
     os.setgid(running_gid)
     os.setuid(running_uid)
+
 
 class Network:
 
@@ -64,6 +82,7 @@ class Network:
             text += "VLAN: %s\n" % self.vlan
         return text
 
+
 class Whois:
 
     def __init__(self, config):
@@ -85,7 +104,7 @@ class Whois:
                 except ValueError as e:
                     print(e)
 
-
+    # flake8: noqa: C901
     def getResponse(self, query):
 
         # Hardcoded values override other entries
@@ -131,17 +150,20 @@ class Whois:
 
         return ""
 
+
 class TCPHandler(socketserver.StreamRequestHandler):
 
     def handle(self):
-            try:
-                query = self.rfile.readline().rstrip().decode('utf-8')
-            except UnicodeDecodeError as e:
-                return
-            self.wfile.write(bytes(whois.getResponse(query), 'utf-8'))
+        try:
+            query = self.rfile.readline().rstrip().decode('utf-8')
+        except UnicodeDecodeError:
+            return
+        self.wfile.write(bytes(whois.getResponse(query), 'utf-8'))
+
 
 class V6Server(socketserver.TCPServer):
     address_family = socket.AF_INET6
+
 
 if __name__ == "__main__":
 
@@ -170,3 +192,5 @@ if __name__ == "__main__":
         dropRoot(uid, gid)
 
     server.serve_forever()
+
+# vim: set noai ts=4 sw=4:
