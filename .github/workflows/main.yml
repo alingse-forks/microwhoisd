@@ -38,7 +38,11 @@ jobs:
 
     - name: Run
       run: |
-        ./microwhoisd.py --config config-dist.yaml --port 4343 &
-        whois --host ::1 --port 4343 192.168.1.1
+        echo " * ./microwhoisd.py"
+        ./microwhoisd.py --config config-dist.yaml --listen 127.0.0.1 --port 4343 &
+        ss -ltpn '( sport = :4343 )'
+        echo " * whois"
+        whois --host 127.0.0.1 --port 4343 192.168.1.1
+        echo " * check daemon"
         jobs %% && : make sure the daemon did not die
         kill -term %%
