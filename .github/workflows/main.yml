@@ -44,9 +44,14 @@ jobs:
       run: |
         echo " * ./microwhoisd.py"
         ./microwhoisd.py --config config-dist.yaml --listen 127.0.0.1 --port 4343 &
-        ss -ltpn '( sport = :4343 )'
+        listening=false
+        for i in {1..10}; do ss -ltpn '( sport = :4343 )' | grep :4343 && listening=true && break; sleep 1; done
+        if $listening ; then
         echo " * whois"
         whois --host 127.0.0.1 --port 4343 192.168.1.1
+        else
+        echo "./microwhoisd.py did not start listening"
+        fi
         echo " * check daemon"
         jobs %% && : make sure the daemon did not die
         kill -term %%
