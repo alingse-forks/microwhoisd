@@ -6,7 +6,9 @@ Useful to be able to internally use a standard whois client to get useful inform
 
 ## Server Configuration
 
-It uses as [YAML](https://en.wikipedia.org/wiki/YAML) configuration file (see the ``config-dist.yaml`` as example), where the answerers can be configured from
+It uses an [YAML](https://en.wikipedia.org/wiki/YAML) configuration file
+(see ``config-dist.yaml`` as an example),
+where the answers can be configured from
 multiple sources, returing the first that matches according to the order below.
 
 ### Keyvalues
@@ -65,8 +67,9 @@ VLAN: network1
 
 ### Files
 
-If the previous methods fail to match, it will scan the files and if the first word matches
-the given query it returns the whole line.
+If the previous methods fail to match,
+the files given in the configuration will be scanned for matches.
+If the first word matches the given query, the whole line is returned.
 
 ```yaml
 files:                                                                                                                         
@@ -74,14 +77,14 @@ files:
   - file2
 ```
 
-Usage example, assuming one of the files is a DNS zone file:
+For example, assuming one of the files is a DNS zone file, you would get:
 
 ```sh
 $ whois machine2
 machine2		IN		A	192.168.1.2			; Machine2
 ```
 
-## Server launch
+## Launching the server
 
 ```
 ./microwhoisd --help
@@ -114,7 +117,8 @@ And to run in production on the default whois port:
 
 ## Client configuration
 
-Withou any previous configuration, it can be tested by running the whois client like the following:
+Without relying on whois client configuration,
+the server can be tested by running the whois client like the following:
 
 ```
 whois -h server -p port query
