@@ -45,7 +45,9 @@ jobs:
 
     - name: Run
       run: |
+        /usr/bin/env python3 --version
         echo " * ./microwhoisd.py"
+        timeout --kill-after=5s 15s \
         ./microwhoisd.py --config config-dist.yaml --listen 127.0.0.1 --port 4343 &
         listening=false
         for i in {1..100}; do ss -ltpn '( sport = :4343 )' | grep :4343 && listening=true && break; sleep .1; done
@@ -59,3 +61,4 @@ jobs:
         jobs %%
         jobs %% | grep Running
         kill -term %%
+        $listening # fail if it never started listening
